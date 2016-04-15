@@ -1,0 +1,22 @@
+diff --git a/rt-kernel/kern/task.c b/rt-kernel/kern/task.c
+index 5fa35f2..1d22b2d 100644
+--- a/rt-kernel/kern/task.c
++++ b/rt-kernel/kern/task.c
+@@ -500,3 +500,17 @@ void task_show (void)
+    CHAINQ_TRAVERSE (&os_state.chain, _task_show, NULL);
+    rprintp ("\n");
+ }
++
++#define DECLARE_SYMBOL(name, value) __asm__ (".global "#name"\n.set "#name",%c0\n" :: "i"((unsigned long)(value)))
++
++void __debug_info(void)
++{
++   DECLARE_SYMBOL(__off_os_state2chain, offsetof(os_state_t, chain));
++   DECLARE_SYMBOL(__off_os_state2current, offsetof(os_state_t, current_task));
++   DECLARE_SYMBOL(__off_task2chain, offsetof(task_t, chain));
++   DECLARE_SYMBOL(__off_task2magic, offsetof(task_t, magic));
++   DECLARE_SYMBOL(__off_task2stack, offsetof(task_t, stack_ptr));
++   DECLARE_SYMBOL(__off_task2state, offsetof(task_t, state));
++   DECLARE_SYMBOL(__off_task2name, offsetof(task_t, name));
++   DECLARE_SYMBOL(__val_task_magic, MAGIC_TASK);
++}

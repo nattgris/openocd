@@ -4645,7 +4645,7 @@ The value should normally correspond to a static mapping for the
 @var{rtos_type} can be one of @option{auto}, @option{eCos},
 @option{ThreadX}, @option{FreeRTOS}, @option{linux}, @option{ChibiOS},
 @option{embKernel}, @option{mqx}, @option{uCOS-III}, @option{nuttx},
-@option{RIOT}
+@option{RIOT}, @option{rtkernel}
 @xref{gdbrtossupport,,RTOS Support}.
 
 @item @code{-defer-examine} -- skip target examination at initial JTAG chain
@@ -10565,6 +10565,7 @@ Currently supported rtos's include:
 @item @option{uCOS-III}
 @item @option{nuttx}
 @item @option{RIOT}
+@item @option{rtkernel}
 @item @option{hwthread} (This is not an actual RTOS. @xref{usingopenocdsmpwithgdb,,Using OpenOCD SMP with GDB}.)
 @end itemize
 
@@ -10603,12 +10604,14 @@ OSRunning, OSTCBCurPtr, OSTaskDbgListPtr, OSTaskQty
 g_readytorun, g_tasklisttable
 @item RIOT symbols
 sched_threads, sched_num_threads, sched_active_pid, max_threads, _tcb_name_offset
+@item rtkernel symbols
+Multiple struct offsets.
 @end table
 
 For most RTOS supported the above symbols will be exported by default. However for
 some, eg. FreeRTOS and uC/OS-III, extra steps must be taken.
 
-These RTOSes may require additional OpenOCD-specific file to be linked
+These RTOSes may require patching or additional OpenOCD-specific files to be linked
 along with the project:
 
 @table @code
@@ -10616,6 +10619,8 @@ along with the project:
 contrib/rtos-helpers/FreeRTOS-openocd.c
 @item uC/OS-III
 contrib/rtos-helpers/uCOS-III-openocd.c
+@item rtkernel
+contrib/rtos-helpers/rt-kernel.patch
 @end table
 
 @anchor{usingopenocdsmpwithgdb}
